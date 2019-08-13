@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const styles = {
   backgroundColor: 'yellow',
@@ -7,21 +7,24 @@ const styles = {
   color: 'black',
 };
 
-function Notifications({ messages=[] }) {
-  let notifications = null;
-
-  if (messages.length) {
-    notifications = messages.map(message =>
-      <div key={message} style={styles}>
-        {message}
-      </div>
-    );
-    return notifications;
-  }
+function Notifications({ msgs=[], setMessages, delay=1000 }) {
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (msgs.length) {
+        msgs.shift();
+        setMessages(msgs);
+      }
+    }, delay)
+    return () => window.clearTimeout(timer);
+  }, [msgs]);
 
   return (
     <div>
-      {notifications}
+      {msgs.map(msg =>
+        <div key={msg} style={styles}>
+          {msg}
+        </div>
+      )}
     </div>
   );
 }

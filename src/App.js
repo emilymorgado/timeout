@@ -12,17 +12,12 @@ const App = () => {
     const newHash = generateHash();
     const modifiedMessages = [...messages, newHash];
     setMessages(modifiedMessages);
-    const timer = setTimeout(() => {
-      messages.shift();
-      setMessages(messages);
-    }, 10000);
-    return () => clearTimeout(timer);
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <Notifications messages={messages} />
+        <Notifications msgs={[...messages]} setMessages={setMessages} delay={3000} />
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={handleNotification}>Click Me</button>
       </header>
